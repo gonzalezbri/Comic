@@ -49,7 +49,7 @@ export const Card: React.FC = () => {
 						className="absolute inset-0 z-10 opacity-0 mix-blend-overlay transition duration-1000 group-hover:opacity-100"
 						style={style}
 					/>
-					<h2 className="mx-8 py-2 text-xl text-zinc-400 font-bold">Title</h2>
+					<h2 className="mx-8 py-2 text-xl text-zinc-400 font-semi-bold">Title</h2>
 					<p className="mx-8 py-2 text-zinc-400">Description</p>
 				</div>
 		</motion.div>
