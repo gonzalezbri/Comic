@@ -4,7 +4,7 @@ import Particles from "./components/particles";
 import Particles2 from "./components/particles2";
 
 const navigation = [
-  { name: "Enter", href: "/projects" },
+  { name: "Projects", href: "/projects" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -40,7 +40,7 @@ export default function Home() {
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <div className="my-16 text-center animate-fade-in">
         <h2 className="text-sm font-display text-white ">
-          I'm Cano i dj.
+          I'm Cano i dj and this is some filler text for the sake of filling.
         </h2>
       </div>
     </div>
