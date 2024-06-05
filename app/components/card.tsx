@@ -1,6 +1,5 @@
 "use client";
-import sampleimg from "../../public/SAMPLE.jpg"
-import bunny from "../../public/bunny.jpg"
+import bunny from "../../public/Bombsmall.png"
 import Image from "next/image";
 import {
 	AnimatePresence,

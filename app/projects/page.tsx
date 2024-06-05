@@ -2,14 +2,13 @@ import React from "react";
 import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
 import sampleimg from "../../public/SAMPLE.jpg"
-import bunny from "../../public/bunny.png"
 
 // Define sample data for projects
 const sampleProjects = [
-  { image: sampleimg }, // Use the imported image for all projects
+  { image: sampleimg }, 
   { image: sampleimg },
   { image: sampleimg },
-  // Add more sample projects as needed
+
 ];
 
 export default function ProjectsPage() {
