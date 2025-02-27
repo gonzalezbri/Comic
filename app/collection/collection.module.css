@@ -1,0 +1,92 @@
+/* collection.module.css */
+.collectionContainer {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  .title {
+    font-size: 5rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .textBlock {
+    max-width: 600px;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: rgba(5, 4, 4, 0.459);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .textBlock p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #ffffff;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .frostedButton {
+    display: inline-block;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #ffffff;
+    
+    /* Frosted glass effect */
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    transition: all 0.3s ease;
+  }
+  
+  .frostedButton:hover {
+    background: rgba(6, 136, 28, 0.733);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .frostedButton:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .title {
+      font-size: 3.5rem;
+    }
+  
+    .textBlock {
+      max-width: 100%;
+      margin: 0 1rem 2rem;
+    }
+  
+    .frostedButton {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 2.5rem;
+    }
+  }

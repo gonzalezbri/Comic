@@ -1,25 +1,19 @@
 import "../global.css";
-import LocalFont from "@next/font/local";
+import  Inter  from "next/font/local";
+import LocalFont from "next/font/local";
 import { Metadata } from "next";
+
 
 export const metadata: Metadata = {
   title: {
-    default: "chronark.com",
-    template: "%s | chronark.com",
+    default: "Gallery Project",
+    template: "%s",
   },
-  description: "DoomsDayPoptart",
+  description: "Gallery Project",
   openGraph: {
-    title: "cano.vercel.app",
-    description: "DoomsDayPoptart",
-    url: "https://chronark.com",
-    siteName: "chronark.com",
-    images: [
-      {
-        url: "https://chronark.com/og.png",
-        width: 1920,
-        height: 1080,
-      },
-    ],
+    title: "Gallery Project.vercel.app",
+    description:
+      "Gallery Project",
     locale: "en-US",
     type: "website",
   },
@@ -42,6 +36,10 @@ export const metadata: Metadata = {
     shortcut: "/favicon.png",
   },
 };
+const inter = Inter({
+  src: "../public/fonts/Inter-VariableFont_slnt,wght.ttf",
+  variable: "--font-inter",
+});
 
 const calSans = LocalFont({
   src: "../public/fonts/CalSans-SemiBold.ttf",
@@ -54,14 +52,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={[inter.variable, calSans.variable].join(" ")}>
       <head>
-        {/* Any head content you need */}
       </head>
-      <body className={`bg-black ${process.env.NODE_ENV === "development" ? "debug-screens" : undefined}`}>
-        <div className={calSans.variable}>
-          {children}
-        </div>
+      <body
+        className={`bg-black ${process.env.NODE_ENV === "development" ? "debug-screens" : undefined
+          }`}
+      >
+        {children}
       </body>
     </html>
   );

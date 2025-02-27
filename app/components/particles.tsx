@@ -2,7 +2,6 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { useMousePosition } from "@/util/mouse";
-import Bombsmall from "../../public/Bombsmall.png";
 
 interface ParticlesProps {
     className?: string;
@@ -12,9 +11,9 @@ interface ParticlesProps {
     refresh?: boolean;
 }
 
-export default function Particles({
+export default function Particles2({
     className = "",
-    quantity = 200,
+    quantity = 50,
     staticity = 40,
     ease = 80,
     refresh = false,
@@ -27,22 +26,19 @@ export default function Particles({
     const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
     const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
     const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
-    const bombImageRef = useRef<HTMLImageElement>();
 
     useEffect(() => {
-		if (canvasRef.current) {
-			context.current = canvasRef.current.getContext("2d");
-		}
-		bombImageRef.current = new Image(); 
-		bombImageRef.current.src = Bombsmall.src;
-		initCanvas();
-		animate();
-		window.addEventListener("resize", initCanvas);
-	
-		return () => {
-			window.removeEventListener("resize", initCanvas);
-		};
-	}, []);
+        if (canvasRef.current) {
+            context.current = canvasRef.current.getContext("2d");
+        }
+        initCanvas();
+        animate();
+        window.addEventListener("resize", initCanvas);
+
+        return () => {
+            window.removeEventListener("resize", initCanvas);
+        };
+    }, []);
 
     useEffect(() => {
         onMouseMove();
@@ -123,34 +119,23 @@ export default function Particles({
     };
 
     const drawCircle = (circle: Circle, update = false) => {
-		if (context.current && bombImageRef.current) {
-			const { x, y, translateX, translateY, size, alpha } = circle;
-			context.current.translate(translateX, translateY);
-			context.current.globalAlpha = alpha;
-	
-			const increasedSize = size * 55.5;
-	
-			// Calculate width and height to maintain the aspect ratio
-			const aspectRatio = bombImageRef.current.width / bombImageRef.current.height;
-			const width = increasedSize;
-			const height = increasedSize / aspectRatio;
-	
-			context.current.drawImage(
-				bombImageRef.current,
-				x - width / 2,
-				y - height / 2,
-				width,
-				height
-			);
-	
-			context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
-			context.current.globalAlpha = 1.0;
-	
-			if (!update) {
-				circles.current.push(circle);
-			}
-		}
-	};
+        if (context.current) {
+            const { x, y, translateX, translateY, size, alpha } = circle;
+            context.current.translate(translateX, translateY);
+            context.current.beginPath();
+
+            const increasedSize = size * 2.5;
+
+            context.current.arc(x, y, increasedSize, 0, 2 * Math.PI);
+            context.current.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+            context.current.fill();
+            context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            if (!update) {
+                circles.current.push(circle);
+            }
+        }
+    };
 
     const clearContext = () => {
         if (context.current) {
@@ -158,7 +143,7 @@ export default function Particles({
                 0,
                 0,
                 canvasSize.current.w,
-                canvasSize.current.h
+                canvasSize.current.h,
             );
         }
     };
@@ -177,7 +162,7 @@ export default function Particles({
         start1: number,
         end1: number,
         start2: number,
-        end2: number
+        end2: number,
     ): number => {
         const remapped =
             ((value - start1) * (end2 - start2)) / (end1 - start1) + start2;
@@ -189,14 +174,14 @@ export default function Particles({
         circles.current.forEach((circle: Circle, i: number) => {
             // Handle the alpha value
             const edge = [
-                circle.x + circle.translateX - circle.size, 
-                canvasSize.current.w - circle.x - circle.translateX - circle.size, 
-                circle.y + circle.translateY - circle.size, 
-                canvasSize.current.h - circle.y - circle.translateY - circle.size, 
+                circle.x + circle.translateX - circle.size, // distance from left edge
+                canvasSize.current.w - circle.x - circle.translateX - circle.size, // distance from right edge
+                circle.y + circle.translateY - circle.size, // distance from top edge
+                canvasSize.current.h - circle.y - circle.translateY - circle.size, // distance from bottom edge
             ];
             const closestEdge = edge.reduce((a, b) => Math.min(a, b));
             const remapClosestEdge = parseFloat(
-                remapValue(closestEdge, 0, 20, 0, 1).toFixed(2)
+                remapValue(closestEdge, 0, 20, 0, 1).toFixed(2),
             );
             if (remapClosestEdge > 1) {
                 circle.alpha += 0.02;
@@ -214,19 +199,19 @@ export default function Particles({
             circle.translateY +=
                 (mouse.current.y / (staticity / circle.magnetism) - circle.translateY) /
                 ease;
-            
+            // circle gets out of the canvas
             if (
                 circle.x < -circle.size ||
                 circle.x > canvasSize.current.w + circle.size ||
                 circle.y < -circle.size ||
                 circle.y > canvasSize.current.h + circle.size
             ) {
-                
+                // remove the circle from the array
                 circles.current.splice(i, 1);
-                
+                // create a new circle
                 const newCircle = circleParams();
                 drawCircle(newCircle);
-                
+                // update the circle position
             } else {
                 drawCircle(
                     {
@@ -237,7 +222,7 @@ export default function Particles({
                         translateY: circle.translateY,
                         alpha: circle.alpha,
                     },
-                    true
+                    true,
                 );
             }
         });
