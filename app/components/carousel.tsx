@@ -1,6 +1,4 @@
-// carousel.tsx
 "use client";
-
 import React, { useCallback, useEffect, useRef } from "react";
 import { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
@@ -9,117 +7,110 @@ import { useRouter } from "next/navigation";
 const TWEEN_FACTOR_BASE = 0.52;
 
 const numberWithinRange = (number: number, min: number, max: number): number =>
-    Math.min(Math.max(number, min), max);
+  Math.min(Math.max(number, min), max);
 
-    interface CarouselProps {
-    images: { src: string; link: string }[];
-    options?: EmblaOptionsType;
-    }
+interface CarouselProps {
+  images: { id: number; src: string; link: string }[]; // Updated interface with id
+  options?: EmblaOptionsType;
+}
 
-    const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
-    const [emblaRef, emblaApi] = useEmblaCarousel({
-        loop: true,
-        align: "center",
-        containScroll: "trimSnaps",
-        ...options,
+const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "center",
+    containScroll: "trimSnaps",
+    ...options,
+  });
+
+  const router = useRouter();
+  const tweenFactor = useRef(0);
+  const tweenNodes = useRef<HTMLElement[]>([]);
+
+  const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
+    tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
+      return slideNode.querySelector(".embla__slide__img") as HTMLElement;
     });
+  }, []);
 
-    const router = useRouter();
-    const tweenFactor = useRef(0);
-    const tweenNodes = useRef<HTMLElement[]>([]);
+  const setTweenFactor = useCallback((emblaApi: EmblaCarouselType) => {
+    tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
+  }, []);
 
-    const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-        tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
-        return slideNode.querySelector(".embla__slide__img") as HTMLElement;
-        });
-    }, []);
+  const tweenScale = useCallback((emblaApi: EmblaCarouselType) => {
+    const engine = emblaApi.internalEngine();
+    const scrollProgress = emblaApi.scrollProgress();
+    const slidesInView = emblaApi.slidesInView();
 
-    const setTweenFactor = useCallback((emblaApi: EmblaCarouselType) => {
-        tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
-    }, []);
+    emblaApi.scrollSnapList().forEach((scrollSnap: number, snapIndex: number) => {
+      let diffToTarget = scrollSnap - scrollProgress;
+      const slidesInSnap = engine.slideRegistry[snapIndex];
 
-    const tweenScale = useCallback((emblaApi: EmblaCarouselType) => {
-        const engine = emblaApi.internalEngine();
-        const scrollProgress = emblaApi.scrollProgress();
-        const slidesInView = emblaApi.slidesInView();
-    
-        emblaApi.scrollSnapList().forEach((scrollSnap: number, snapIndex: number) => {
-          let diffToTarget = scrollSnap - scrollProgress;
-          const slidesInSnap = engine.slideRegistry[snapIndex];
-    
-          slidesInSnap.forEach((slideIndex: number) => {
-            if (!slidesInView.includes(slideIndex)) return;
-    
-            if (engine.options.loop) {
-              engine.slideLooper.loopPoints.forEach((loopItem: {
-                target: () => number;
-                index: number;
-              }) => {
-                const target = loopItem.target();
-                if (slideIndex === loopItem.index && target !== 0) {
-                  const sign = Math.sign(target);
-                  diffToTarget =
-                    sign === -1
-                      ? scrollSnap - (1 + scrollProgress)
-                      : scrollSnap + (1 - scrollProgress);
-                }
-              });
+      slidesInSnap.forEach((slideIndex: number) => {
+        if (!slidesInView.includes(slideIndex)) return;
+
+        if (engine.options.loop) {
+          engine.slideLooper.loopPoints.forEach((loopItem: { target: () => number; index: number }) => {
+            const target = loopItem.target();
+            if (slideIndex === loopItem.index && target !== 0) {
+              const sign = Math.sign(target);
+              diffToTarget = sign === -1 ? scrollSnap - (1 + scrollProgress) : scrollSnap + (1 - scrollProgress);
             }
-    
-            const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current);
-        const scale = numberWithinRange(tweenValue,0.85, 1);
+          });
+        }
+
+        const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current);
+        const scale = numberWithinRange(tweenValue, 0.85, 1);
         const opacity = numberWithinRange(tweenValue, 0.3, 1);
-        const blur = numberWithinRange((1 - tweenValue) * 2, 0, 2); // Added blur calculation (0-5px)
+        const blur = numberWithinRange((1 - tweenValue) * 2, 0, 2);
         const tweenNode = tweenNodes.current[slideIndex];
         if (tweenNode) {
           tweenNode.style.transform = `scale(${scale})`;
           tweenNode.style.opacity = `${opacity}`;
-          tweenNode.style.filter = `blur(${blur}px)`; // Apply blur
-            }
-          });
-        });
-      }, []);
+          tweenNode.style.filter = `blur(${blur}px)`;
+        }
+      });
+    });
+  }, []);
 
-    useEffect(() => {
-        if (!emblaApi) return;
+  useEffect(() => {
+    if (!emblaApi) return;
 
-        setTweenNodes(emblaApi);
-        setTweenFactor(emblaApi);
-        tweenScale(emblaApi);
+    setTweenNodes(emblaApi);
+    setTweenFactor(emblaApi);
+    tweenScale(emblaApi);
 
-        emblaApi
-        .on("reInit", setTweenNodes)
-        .on("reInit", setTweenFactor)
-        .on("reInit", tweenScale)
-        .on("scroll", tweenScale);
+    emblaApi
+      .on("reInit", setTweenNodes)
+      .on("reInit", setTweenFactor)
+      .on("reInit", tweenScale)
+      .on("scroll", tweenScale);
 
-        return () => {
-        emblaApi.off("reInit", setTweenNodes);
-        emblaApi.off("reInit", setTweenFactor);
-        emblaApi.off("reInit", tweenScale);
-        emblaApi.off("scroll", tweenScale);
-        };
-    }, [emblaApi, tweenScale]);
+    return () => {
+      emblaApi.off("reInit", setTweenNodes);
+      emblaApi.off("reInit", setTweenFactor);
+      emblaApi.off("reInit", tweenScale);
+      emblaApi.off("scroll", tweenScale);
+    };
+  }, [emblaApi, tweenScale]);
 
-     // Handle click to navigate with comic index
-  const handleComicClick = (index: number) => {
-    router.push(`/projects?comic=${index}`);
+  // Handle click to navigate with comic id (not index)
+  const handleComicClick = (id: number) => {
+    router.push(`/comics?comic=${id}`);
   };
-
 
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {images.map((comic, index) => (
-            <div className="embla__slide" key={index}>
+          {images.map((comic) => (
+            <div className="embla__slide" key={comic.id}>
               <div
                 className="embla__slide__img cursor-pointer"
-                onClick={() => handleComicClick(index)}
+                onClick={() => handleComicClick(comic.id)} // Use id instead of index
               >
                 <img
                   src={comic.src}
-                  alt={`Comic ${index + 1}`}
+                  alt={`Comic ${comic.id + 1}`}
                   className="w-full h-full object-cover rounded-md shadow-lg"
                 />
               </div>

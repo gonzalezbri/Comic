@@ -41,7 +41,7 @@ export const Navigation: React.FC = () => {
               Collection
             </Link>
             <Link
-              href="/projects"
+              href="/comics"
               className="duration-200 text-zinc-400 hover:text-red-400 text-lg font-medium pr-10"
             >
               Comics

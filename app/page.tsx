@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react"; // Added useEffect
 import { motion } from "framer-motion";
 import Particles from "./components/particles";
 import Particles2 from "./components/particles2";
@@ -13,18 +13,19 @@ import comic5 from "../public/comic5.jpg";
 import comic6 from "../public/comic6.jpg";
 
 const navigation = [
-  { name: "Comics", href: "/projects" },
+  { name: "Comics", href: "/comics" },
   { name: "Contact", href: "/contact" },
   { name: "Collection", href: "/collection" },
 ];
 
-const comicImages = [
-  { src: comic1.src, link: "/comic1" },
-  { src: comic2.src, link: "/comic2" },
-  { src: comic3.src, link: "/comic3" },
-  { src: comic4.src, link: "/comic4" },
-  { src: comic5.src, link: "/comic5" },
-  { src: comic6.src, link: "/comic6" },
+// Original comic images with stable IDs
+const comicImagesBase = [
+  { id: 0, src: comic1.src, link: "/comic1" },
+  { id: 1, src: comic2.src, link: "/comic2" },
+  { id: 2, src: comic3.src, link: "/comic3" },
+  { id: 3, src: comic4.src, link: "/comic4" },
+  { id: 4, src: comic5.src, link: "/comic5" },
+  { id: 5, src: comic6.src, link: "/comic6" },
 ];
 
 // Animation variants with spring transitions
@@ -33,7 +34,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2, // Stagger each child by 200ms
+      staggerChildren: 0.2,
     },
   },
 };
@@ -45,9 +46,9 @@ const fadeInSpring = {
     y: 0,
     transition: {
       type: "spring",
-      stiffness: 100, // Controls bounce intensity
-      damping: 15, // Controls settling speed
-      mass: 0.5, // Lighter mass for quicker snap
+      stiffness: 100,
+      damping: 15,
+      mass: 0.5,
     },
   },
 };
@@ -88,14 +89,22 @@ const titleSpring = {
     y: 0,
     transition: {
       type: "spring",
-      stiffness: 80, // Softer bounce for elegance
-      damping: 12, // Slower settle for grandeur
-      mass: 0.8, // Heavier for a smoother feel
+      stiffness: 80,
+      damping: 12,
+      mass: 0.8,
     },
   },
 };
 
 export default function Home() {
+  // State to hold the shuffled comic images
+  const [comicImages, setComicImages] = useState(comicImagesBase);
+
+  // Shuffle on every page load
+  useEffect(() => {
+    setComicImages([...comicImagesBase].sort(() => Math.random() - 0.5));
+  }, []); // Empty dependency array ensures it runs on mount
+
   return (
     <motion.div
       className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-b from-green-700/40 via-black/40 to-black bg-[url('/space-background.jpg')] bg-cover bg-center bg-fixed animate-hue-cycle"
@@ -106,11 +115,7 @@ export default function Home() {
       <motion.nav className="my-16 pt-10" variants={fadeInSpring}>
         <ul className="flex items-center justify-center gap-4">
           {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-m duration-500 text-white hover:text-red-500"
-            >
+            <Link key={item.href} href={item.href} className="text-m duration-500 text-white hover:text-red-500">
               {item.name}
             </Link>
           ))}
@@ -141,10 +146,7 @@ export default function Home() {
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo ex aut at numquam vero laboriosam in, ipsa alias, reiciendis soluta odit, suscipit autem praesentium. Temporibus nemo quas ratione voluptatum laudantium?
         </h2>
       </motion.div>
-      <motion.div
-        className="my-16 w-full max-w-2xl min-h-[375px]"
-        variants={fadeInSpring}
-      >
+      <motion.div className="my-16 w-full max-w-2xl min-h-[375px]" variants={fadeInSpring}>
         <Carousel images={comicImages} />
       </motion.div>
     </motion.div>

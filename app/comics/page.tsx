@@ -12,55 +12,18 @@ import comic5 from "../../public/comic5.jpg";
 import comic6 from "../../public/comic6.jpg";
 
 const sampleProjects = [
-  {
-    image: comic1.src,
-    title: "Marvel Comics",
-    genre: "Action",
-    grade: "A",
-    description: "An epic tale of heroes and villains battling for justice.",
-  },
-  {
-    image: comic2.src,
-    title: "The Amazing Spider Man",
-    genre: "Fantasy",
-    grade: "B+",
-    description: "A journey through magical lands filled with wonder.",
-  },
-  {
-    image: comic3.src,
-    title: "The Avengers",
-    genre: "Sci-Fi",
-    grade: "A-",
-    description: "A dystopian adventure in a high-tech world.",
-  },
-  {
-    image: comic4.src,
-    title: "Spiderman",
-    genre: "Action",
-    grade: "B",
-    description: "A gritty tale of crime and investigation.",
-  },
-  {
-    image: comic5.src,
-    title: "The Incredible Hulk",
-    genre: "Super Hero",
-    grade: "A",
-    description: "Hilarious misadventures of a quirky crew.",
-  },
-  {
-    image: comic6.src,
-    title: "Bat Man",
-    genre: "Super Hero",
-    grade: "B+",
-    description: "A chilling story of ghosts and secrets.",
-  },
+  { image: comic1.src, title: "Marvel Comics", genre: "Action", grade: "A", description: "An epic tale..." },
+  { image: comic2.src, title: "The Amazing Spider Man", genre: "Fantasy", grade: "B+", description: "A journey..." },
+  { image: comic3.src, title: "The Avengers", genre: "Sci-Fi", grade: "A-", description: "A dystopian..." },
+  { image: comic4.src, title: "Spiderman", genre: "Action", grade: "B", description: "A gritty..." },
+  { image: comic5.src, title: "The Incredible Hulk", genre: "Super Hero", grade: "A", description: "Hilarious..." },
+  { image: comic6.src, title: "Bat Man", genre: "Super Hero", grade: "B+", description: "A chilling..." },
 ];
 
 export default function ProjectsPage() {
   const searchParams = useSearchParams();
   const [selectedComic, setSelectedComic] = useState<number | null>(null);
 
-  // Set selectedComic based on query parameter on initial load
   useEffect(() => {
     const comicIndex = searchParams.get("comic");
     if (comicIndex !== null) {
@@ -71,7 +34,6 @@ export default function ProjectsPage() {
     }
   }, [searchParams]);
 
-  // Memoize the grid to prevent unnecessary re-renders
   const comicGrid = useMemo(() => (
     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-8">
       {sampleProjects.map((project, index) => (
@@ -96,9 +58,7 @@ export default function ProjectsPage() {
           <h2 className="text-3xl pt-5 font-display font-semibold tracking-tight text-zinc-100 sm:text-4xl">
             Featured Comics
           </h2>
-          <p className="mt-4 text-zinc-400">
-            Explore my featured collection of comics!
-          </p>
+          <p className="mt-4 text-zinc-400">Explore my featured collection of comics!</p>
         </div>
         <div className="w-full h-px bg-zinc-800" />
         {comicGrid}

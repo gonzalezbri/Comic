@@ -6,14 +6,14 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    default: "Gallery Project",
+    default: "Crystal Comics",
     template: "%s",
   },
-  description: "Gallery Project",
+  description: "Crystal Comics",
   openGraph: {
-    title: "Gallery Project.vercel.app",
+    title: "Crystal Comics.vercel.app",
     description:
-      "Gallery Project",
+      "Crystal Comics",
     locale: "en-US",
     type: "website",
   },
