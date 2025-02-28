@@ -10,7 +10,7 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max);
 
 interface CarouselProps {
-  images: { id: number; src: string; link: string }[]; // Updated interface with id
+  images: { id: number; src: string; link: string }[];
   options?: EmblaOptionsType;
 }
 
@@ -19,6 +19,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
     loop: true,
     align: "center",
     containScroll: "trimSnaps",
+    startIndex: Math.floor(Math.random() * images.length),
     ...options,
   });
 
@@ -59,7 +60,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
         }
 
         const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current);
-        const scale = numberWithinRange(tweenValue, 0.85, 1);
+        const scale = numberWithinRange(tweenValue, 0.8, 1.2); // Expanded range: 0.8 (non-focused) to 1.2 (focused)
         const opacity = numberWithinRange(tweenValue, 0.3, 1);
         const blur = numberWithinRange((1 - tweenValue) * 2, 0, 2);
         const tweenNode = tweenNodes.current[slideIndex];
@@ -93,7 +94,6 @@ const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
     };
   }, [emblaApi, tweenScale]);
 
-  // Handle click to navigate with comic id (not index)
   const handleComicClick = (id: number) => {
     router.push(`/comics?comic=${id}`);
   };
@@ -104,10 +104,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
         <div className="embla__container">
           {images.map((comic) => (
             <div className="embla__slide" key={comic.id}>
-              <div
-                className="embla__slide__img cursor-pointer"
-                onClick={() => handleComicClick(comic.id)} // Use id instead of index
-              >
+              <div className="embla__slide__img cursor-pointer" onClick={() => handleComicClick(comic.id)}>
                 <img
                   src={comic.src}
                   alt={`Comic ${comic.id + 1}`}

@@ -126,10 +126,10 @@ export default function Home() {
         variants={fadeLeftSpring}
       />
       <motion.div variants={fadeInSpring}>
-        <Particles className="absolute inset-0 -z-10" quantity={50} />
+        <Particles className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
       <motion.div variants={fadeInSpring}>
-        <Particles2 className="absolute inset-0 -z-10" quantity={50} />
+        <Particles2 className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
       <motion.h1
         className="z-10 text-4xl text-transparent bg-white/90 cursor-default text-edge-outline font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text"
@@ -146,7 +146,7 @@ export default function Home() {
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo ex aut at numquam vero laboriosam in, ipsa alias, reiciendis soluta odit, suscipit autem praesentium. Temporibus nemo quas ratione voluptatum laudantium?
         </h2>
       </motion.div>
-      <motion.div className="my-16 w-full max-w-2xl min-h-[375px]" variants={fadeInSpring}>
+      <motion.div className="my-16 w-full max-w-2xl min-h-[375px] mb-8 md:mb-16" variants={fadeInSpring}> {/* Added mb-8 for mobile, md:mb-16 for desktop */}
         <Carousel images={comicImages} />
       </motion.div>
     </motion.div>
