@@ -98,13 +98,11 @@ const titleSpring = {
 };
 
 export default function Home() {
-  // State to hold the shuffled comic images
   const [comicImages, setComicImages] = useState(comicImagesBase);
 
-  // Shuffle on every page load
   useEffect(() => {
     setComicImages([...comicImagesBase].sort(() => Math.random() - 0.5));
-  }, []); // Empty dependency array ensures it runs on mount
+  }, []);
 
   return (
     <motion.div
@@ -113,26 +111,22 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      <motion.nav
-        className="my-4 pt-8 -mt-2 md:mt-0" // Added -mt-2 for mobile, reset to 0 on md
-        variants={fadeInSpring}
-      >
-        <ul className="flex items-center justify-center gap-4">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-m md:text-xl duration-500 text-white hover:text-red-500"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </ul>
-      </motion.nav>
-      <motion.div
-        className="hidden w-screen h-px animate-glow md:block bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0"
-        variants={fadeLeftSpring}
-      />
+      <div className="w-full backdrop-blur-md bg-white/10 rounded-lg -mt-4 pt-4"> {/* Removed pb-8 */}
+        <motion.nav variants={fadeInSpring} className="my-4 px-4">
+          <ul className="flex items-center justify-center gap-4">
+            {navigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-m md:text-xl duration-500 text-white hover:text-red-500"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </ul>
+        </motion.nav>
+      </div>
+      <motion.div className="glow-line" variants={fadeLeftSpring} /> {/* Moved outside blur wrapper */}
       <motion.div variants={fadeInSpring}>
         <Particles className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
@@ -140,20 +134,17 @@ export default function Home() {
         <Particles2 className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
       <motion.div
-        className="z-10 cursor-default font-display flex items-center justify-center animate-hue-cycle -mt-2 md:mt-0" // Added -mt-2 for mobile, reset to 0 on md
+        className="z-10 cursor-default font-display flex items-center justify-center animate-hue-cycle"
         variants={titleSpring}
       >
-        <img 
+        <img
           src={logo.src}
           alt="Crystal Comics Logo"
-          className="w-[24rem] sm:w-[32rem] md:w-[40rem] h-auto" // Increased base sizes, adjust as needed
+          className="w-[24rem] sm:w-[32rem] md:w-[40rem] h-auto"
         />
       </motion.div>
-      <motion.div
-        className="hidden w-screen h-px animate-glow md:block bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0"
-        variants={fadeRightSpring}
-      />
-      <motion.div className=" w-full max-w-2xl min-h-[375px] mb-4 md:mb-8" variants={fadeInSpring}> {/* Added mb-8 for mobile, md:mb-16 for desktop */}
+      <motion.div className="glow-line" variants={fadeRightSpring} />
+      <motion.div className="carousel-container" variants={fadeInSpring}>
         <Carousel images={comicImages} />
       </motion.div>
     </motion.div>

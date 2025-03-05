@@ -6,7 +6,8 @@
   .text-edge-outline {
     -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
   }
-} 
+}
+
 body, html {
   height: 100%;
 }
@@ -18,67 +19,120 @@ body, html {
 }
 
 .container {
-    width: 100vw;  /* Ensure the container takes the full width of the viewport */
-    height: 100%;  /* Ensure the container takes the full height */
-    padding: 0;  /* Remove any padding */
+  width: 100vw;
+  height: 100%;
+  padding: 0;
 }
-
 
 body {
-  background-image: url('./public/surf2.webp'); /* Adjust the path based on your public folder */
+  background-image: url('/surf2.webp');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Keeps it static while scrolling */
+  background-attachment: fixed;
   background-repeat: no-repeat;
-
 }
 
-
-/* Media query for mobile devices */
 @media (max-width: 767px) {
   body {
-    background-image: url('./public/mob2.png'); /* Mobile image */
-    background-size: cover; /* Ensure it still covers the screen */
-    background-position: center; /* Center it */
-    background-attachment: fixed; /* Keep it static */
-    background-repeat: no-repeat; /* No repeat */
+    background-image: url('/mob22.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
   }
 }
 
-
-@keyframes hueCycle {
-  0% { filter: hue-rotate(0deg) brightness(0.8); } /* Darker starting point */
-  33% { filter: hue-rotate(30deg) brightness(0.75); } /* Darker green */
-  66% { filter: hue-rotate(210deg) brightness(0.7); } /* Darker purple/blue */
-  100% { filter: hue-rotate(360deg) brightness(0.8); } /* Return to normal */
+/* Navigation - Reset to minimal styles */
+nav {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-top: 2rem;
 }
 
-
-.animate-fade-in {
-  animation: fadeIn 1s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+@media (max-width: 767px) {
+  nav {
+    margin-top: -0.5rem;
   }
-  to {
+}
+
+@media (min-width: 768px) {
+  nav {
+    margin-top: 1rem;
+  }
+}
+
+/* Glow lines */
+.glow-line {
+  width: 100vw;
+  height: 1px;
+  background: linear-gradient(to right, rgba(161, 161, 170, 0), rgba(161, 161, 170, 0.5), rgba(161, 161, 170, 0));
+  opacity: 0.75;
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .glow-line {
+    display: block;
+    height: 2px;
     opacity: 1;
+    background: linear-gradient(to right, rgba(161, 161, 170, 0), rgba(161, 161, 170, 0.8), rgba(161, 161, 170, 0));
   }
+}
+
+@media (min-width: 768px) {
+  .glow-line {
+    display: block;
+    height: 1px;
+    opacity: 0.75;
+  }
+}
+
+/* Carousel */
+.carousel-container {
+  width: 100%;
+  max-width: 32rem;
+  min-height: 375px;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 767px) {
+  .carousel-container {
+    margin-top: 4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .carousel-container {
+    margin-bottom: 2rem;
+    margin-top: 0;
+  }
+}
+
+/* Animations */
+@keyframes hueCycle {
+  0% { filter: hue-rotate(0deg) brightness(0.8); }
+  33% { filter: hue-rotate(30deg) brightness(0.75); }
+  66% { filter: hue-rotate(210deg) brightness(0.7); }
+  100% { filter: hue-rotate(360deg) brightness(0.8); }
 }
 
 .animate-hue-cycle {
   animation: hueCycle 10s infinite linear;
 }
 
+@keyframes glow {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
 
-/* global.css */
+/* Rest of your original styles */
 .embla {
-  max-width: 56rem; /* Increased from 48rem (768px) to 56rem (896px) */
+  max-width: 56rem;
   margin: auto;
   --slide-height: 375px;
   --slide-spacing: 2rem;
-  --slide-size: 38%; /* ~322px each, 3 = 966px, clipped to 896px */
+  --slide-size: 38%;
 }
 
 .embla__viewport {
@@ -110,7 +164,6 @@ body {
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .embla {
     --slide-size: 50%;
@@ -147,10 +200,12 @@ body {
   opacity: 0;
   transition: opacity 0.3s;
 }
+
 .group:hover::before {
   opacity: 0.5;
   animation: sparkle 1s infinite;
 }
+
 @keyframes sparkle {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(10px, -10px); }
