@@ -42,20 +42,47 @@ body {
   }
 }
 
+/* Navigation - Reset to minimal styles */
+nav {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-top: 2rem;
+}
+
+@media (max-width: 767px) {
+  nav {
+    margin-top: -0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  nav {
+    margin-top: 1rem;
+  }
+}
+
 /* Glow lines */
 .glow-line {
   width: 100vw;
-  height: 1px;
+  height: 1px; /* Default for desktop */
   background: linear-gradient(to right, rgba(161, 161, 170, 0), rgba(161, 161, 170, 0.5), rgba(161, 161, 170, 0));
-  opacity: 0.75;
-  display: block; /* Always visible */
+  opacity: 0.75; /* Default for desktop */
+  display: block; /* Always visible, adjusted by media queries */
 }
 
 @media (max-width: 767px) {
   .glow-line {
-    height: 2px;
-    opacity: 1;
+    height: 2px; /* Thicker on mobile */
+    opacity: 1; /* Brighter on mobile */
     background: linear-gradient(to right, rgba(161, 161, 170, 0), rgba(161, 161, 170, 0.8), rgba(161, 161, 170, 0));
+  }
+}
+
+@media (min-width: 768px) {
+  .glow-line {
+    display: block;
+    height: 1px;
+    opacity: 0.75;
   }
 }
 
@@ -64,11 +91,19 @@ body {
   width: 100%;
   max-width: 32rem;
   min-height: 375px;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 767px) {
   .carousel-container {
     margin-top: 4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .carousel-container {
+    margin-bottom: 2rem;
+    margin-top: 0;
   }
 }
 
