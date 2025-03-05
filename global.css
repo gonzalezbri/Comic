@@ -33,6 +33,19 @@ body {
 
 }
 
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+  body {
+    background-image: url('./public/mob2.png'); /* Mobile image */
+    background-size: cover; /* Ensure it still covers the screen */
+    background-position: center; /* Center it */
+    background-attachment: fixed; /* Keep it static */
+    background-repeat: no-repeat; /* No repeat */
+  }
+}
+
+
 @keyframes hueCycle {
   0% { filter: hue-rotate(0deg) brightness(0.8); } /* Darker starting point */
   33% { filter: hue-rotate(30deg) brightness(0.75); } /* Darker green */

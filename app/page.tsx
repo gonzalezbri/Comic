@@ -113,10 +113,17 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      <motion.nav className="my-4 pt-8" variants={fadeInSpring}>
+      <motion.nav
+        className="my-4 pt-8 -mt-2 md:mt-0" // Added -mt-2 for mobile, reset to 0 on md
+        variants={fadeInSpring}
+      >
         <ul className="flex items-center justify-center gap-4">
           {navigation.map((item) => (
-            <Link key={item.href} href={item.href} className="text-m md:text-xl duration-500 text-white hover:text-red-500">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-m md:text-xl duration-500 text-white hover:text-red-500"
+            >
               {item.name}
             </Link>
           ))}
@@ -133,7 +140,7 @@ export default function Home() {
         <Particles2 className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
       <motion.div
-        className="z-10 cursor-default font-display flex items-center justify-center animate-hue-cycle"
+        className="z-10 cursor-default font-display flex items-center justify-center animate-hue-cycle -mt-2 md:mt-0" // Added -mt-2 for mobile, reset to 0 on md
         variants={titleSpring}
       >
         <img 
