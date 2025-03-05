@@ -25,7 +25,7 @@ body, html {
 
 
 body {
-  background-image: url('./public/rsz_knowherebg.webp'); /* Adjust the path based on your public folder */
+  background-image: url('./public/surf2.webp'); /* Adjust the path based on your public folder */
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* Keeps it static while scrolling */
@@ -55,7 +55,7 @@ body {
 }
 
 .animate-hue-cycle {
-  animation: hueCycle 30s infinite linear;
+  animation: hueCycle 10s infinite linear;
 }
 
 
@@ -64,9 +64,8 @@ body {
   max-width: 56rem; /* Increased from 48rem (768px) to 56rem (896px) */
   margin: auto;
   --slide-height: 375px;
-  --slide-spacing: 1rem;
-  --slide-size: 36%; /* ~322px each, 3 = 966px, clipped to 896px */
-  padding: 1rem 0;
+  --slide-spacing: 2rem;
+  --slide-size: 38%; /* ~322px each, 3 = 966px, clipped to 896px */
 }
 
 .embla__viewport {

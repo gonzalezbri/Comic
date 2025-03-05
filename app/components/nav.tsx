@@ -44,7 +44,7 @@ export const Navigation: React.FC = () => {
               href="/comics"
               className="duration-200 text-zinc-400 hover:text-red-400 text-lg font-medium pr-10"
             >
-              Comics
+              Featured
             </Link>
           </nav>
 

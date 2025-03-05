@@ -11,9 +11,10 @@ import comic3 from "../public/comic3.jpg";
 import comic4 from "../public/comic4.jpg";
 import comic5 from "../public/comic5.jpg";
 import comic6 from "../public/comic6.jpg";
+import logo from "../public/Option3web.webp"
 
 const navigation = [
-  { name: "Comics", href: "/comics" },
+  { name: "Featured", href: "/comics" },
   { name: "Contact", href: "/contact" },
   { name: "Collection", href: "/collection" },
 ];
@@ -107,15 +108,15 @@ export default function Home() {
 
   return (
     <motion.div
-      className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-b from-green-700/40 via-black/40 to-black bg-[url('/space-background.jpg')] bg-cover bg-center bg-fixed animate-hue-cycle"
+      className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-b from-zinc-900/20 via-black/10 to-black bg-cover bg-center bg-fixed"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      <motion.nav className="my-16 pt-10" variants={fadeInSpring}>
+      <motion.nav className="my-4 pt-8" variants={fadeInSpring}>
         <ul className="flex items-center justify-center gap-4">
           {navigation.map((item) => (
-            <Link key={item.href} href={item.href} className="text-m duration-500 text-white hover:text-red-500">
+            <Link key={item.href} href={item.href} className="text-m md:text-xl duration-500 text-white hover:text-red-500">
               {item.name}
             </Link>
           ))}
@@ -131,22 +132,21 @@ export default function Home() {
       <motion.div variants={fadeInSpring}>
         <Particles2 className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
-      <motion.h1
-        className="z-10 text-4xl text-transparent bg-white/90 cursor-default text-edge-outline font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text"
+      <motion.div
+        className="z-10 cursor-default font-display flex items-center justify-center animate-hue-cycle"
         variants={titleSpring}
       >
-        Crystal Comics
-      </motion.h1>
+        <img 
+          src={logo.src}
+          alt="Crystal Comics Logo"
+          className="w-[24rem] sm:w-[32rem] md:w-[40rem] h-auto" // Increased base sizes, adjust as needed
+        />
+      </motion.div>
       <motion.div
         className="hidden w-screen h-px animate-glow md:block bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0"
         variants={fadeRightSpring}
       />
-      <motion.div className="my-10 text-center" variants={fadeInSpring}>
-        <h2 className="text-sm text-white">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo ex aut at numquam vero laboriosam in, ipsa alias, reiciendis soluta odit, suscipit autem praesentium. Temporibus nemo quas ratione voluptatum laudantium?
-        </h2>
-      </motion.div>
-      <motion.div className="my-16 w-full max-w-2xl min-h-[375px] mb-8 md:mb-16" variants={fadeInSpring}> {/* Added mb-8 for mobile, md:mb-16 for desktop */}
+      <motion.div className=" w-full max-w-2xl min-h-[375px] mb-4 md:mb-8" variants={fadeInSpring}> {/* Added mb-8 for mobile, md:mb-16 for desktop */}
         <Carousel images={comicImages} />
       </motion.div>
     </motion.div>

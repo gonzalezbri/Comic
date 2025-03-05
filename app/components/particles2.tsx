@@ -12,7 +12,7 @@ interface ParticlesProps {
 
 export default function Particles2({
   className = "",
-  quantity = 30,
+  quantity = 60,
   staticity = 40,
   ease = 40,
   refresh = false,
@@ -120,7 +120,7 @@ export default function Particles2({
     const dx = (Math.random() - 0.5) * 0.2;
     const dy = (Math.random() - 0.5) * 0.2;
     const magnetism = 0.1 + Math.random() * 4;
-    const blink = Math.random() < 0.2; // 20% chance to blink
+    const blink = Math.random() < 0.3; // 20% chance to blink
     const blinkPhase = Math.random() * Math.PI * 2; // Random phase for blinking
     return { x, y, translateX, translateY, size, alpha, targetAlpha, dx, dy, magnetism, blink, blinkPhase };
   };
