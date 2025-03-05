@@ -111,8 +111,8 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      <div className="w-full backdrop-blur-md bg-white/10 rounded-lg -mt-4 pt-4"> {/* Removed pb-8 */}
-        <motion.nav variants={fadeInSpring} className="my-4 px-4">
+      <div className="w-full backdrop-blur-md bg-white/10 rounded-lg -mt-4 pt-8"> {/* Increased pt-4 to pt-8 */}
+        <motion.nav variants={fadeInSpring} className="my-6 px-6"> {/* Increased my-4 to my-6, px-4 to px-6 */}
           <ul className="flex items-center justify-center gap-4">
             {navigation.map((item) => (
               <Link
@@ -126,7 +126,7 @@ export default function Home() {
           </ul>
         </motion.nav>
       </div>
-      <motion.div className="glow-line" variants={fadeLeftSpring} /> {/* Moved outside blur wrapper */}
+      <motion.div className="glow-line" variants={fadeLeftSpring} />
       <motion.div variants={fadeInSpring}>
         <Particles className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
@@ -144,7 +144,7 @@ export default function Home() {
         />
       </motion.div>
       <motion.div className="glow-line" variants={fadeRightSpring} />
-      <motion.div className="carousel-container" variants={fadeInSpring}>
+      <motion.div className="carousel-container mb-12 md:mb-16" variants={fadeInSpring}> {/* Increased padding */}
         <Carousel images={comicImages} />
       </motion.div>
     </motion.div>
