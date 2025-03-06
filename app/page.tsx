@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Head from "next/head";
 import React, { useState, useEffect } from "react"; // Added useEffect
 import { motion } from "framer-motion";
 import Particles from "./components/particles";
