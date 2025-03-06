@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import Head from "next/head";
+import styles from "./home.module.css"
 import React, { useState, useEffect } from "react"; // Added useEffect
 import { motion } from "framer-motion";
 import Particles from "./components/particles";
@@ -112,8 +112,8 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      <div className="w-full backdrop-blur-md bg-white/10 rounded-lg -mt-4 pt-4"> {/* Removed pb-8 */}
-        <motion.nav variants={fadeInSpring} className="my-4 px-4">
+      <div className={styles.navContainer}>
+        <motion.nav variants={fadeInSpring} className={styles.nav}>
           <ul className="flex items-center justify-center gap-4">
             {navigation.map((item) => (
               <Link
@@ -127,7 +127,7 @@ export default function Home() {
           </ul>
         </motion.nav>
       </div>
-      <motion.div className="glow-line" variants={fadeLeftSpring} /> {/* Moved outside blur wrapper */}
+      <motion.div className={styles.glowLine} variants={fadeLeftSpring} />
       <motion.div variants={fadeInSpring}>
         <Particles className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
@@ -144,8 +144,8 @@ export default function Home() {
           className="w-[24rem] sm:w-[32rem] md:w-[40rem] h-auto"
         />
       </motion.div>
-      <motion.div className="glow-line" variants={fadeRightSpring} />
-      <motion.div className="carousel-container" variants={fadeInSpring}>
+      <motion.div className={styles.glowLine} variants={fadeRightSpring} />
+      <motion.div className={styles.carousel} variants={fadeInSpring}>
         <Carousel images={comicImages} />
       </motion.div>
     </motion.div>

@@ -1,5 +1,5 @@
 "use client";
-import { Mail, BoomBox, Instagram, Twitter } from "lucide-react";
+import { Mail, Instagram, Twitter } from "lucide-react";
 import { Navigation } from "../components/nav";
 import { ContactCard } from "../components/contactCard";
 import Particles from "../components/particles";
