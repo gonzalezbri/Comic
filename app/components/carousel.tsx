@@ -12,9 +12,10 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
 interface CarouselProps {
   images: { id: number; src: string; link: string }[];
   options?: EmblaOptionsType;
+  setEmblaApi?: (api: EmblaCarouselType | undefined) => void; // Changed from null to undefined
 }
 
-const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
+const Carousel: React.FC<CarouselProps> = ({ images, options, setEmblaApi }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "center",
@@ -28,7 +29,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
   const tweenNodes = useRef<HTMLElement[]>([]);
 
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-    tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
+    tweenNodes.current = emblaApi.slideNodes().map((slideNode: HTMLElement) => {
       return slideNode.querySelector(".embla__slide__img") as HTMLElement;
     });
   }, []);
@@ -60,7 +61,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
         }
 
         const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current);
-        const scale = numberWithinRange(tweenValue, 0.8, 1.2); // Expanded range: 0.8 (non-focused) to 1.2 (focused)
+        const scale = numberWithinRange(tweenValue, 0.8, 1.2);
         const opacity = numberWithinRange(tweenValue, 0.3, 1);
         const blur = numberWithinRange((1 - tweenValue) * 2, 0, 2);
         const tweenNode = tweenNodes.current[slideIndex];
@@ -86,13 +87,17 @@ const Carousel: React.FC<CarouselProps> = ({ images, options }) => {
       .on("reInit", tweenScale)
       .on("scroll", tweenScale);
 
+    if (setEmblaApi) {
+      setEmblaApi(emblaApi); // emblaApi can be undefined initially, but this is handled by the hook
+    }
+
     return () => {
       emblaApi.off("reInit", setTweenNodes);
       emblaApi.off("reInit", setTweenFactor);
       emblaApi.off("reInit", tweenScale);
       emblaApi.off("scroll", tweenScale);
     };
-  }, [emblaApi, tweenScale]);
+  }, [emblaApi, tweenScale, setEmblaApi]);
 
   const handleComicClick = (id: number) => {
     router.push(`/comics?comic=${id}`);

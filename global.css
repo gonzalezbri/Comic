@@ -42,6 +42,69 @@ body {
   }
 }
 
+/* Navigation */
+nav {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 767px) {
+  nav {
+    margin-top: -0.5rem; /* Reset to original */
+    padding-top: 1rem; /* Reduce padding to pull nav up */
+  }
+}
+
+@media (min-width: 768px) {
+  nav {
+    margin-top: 1rem;
+  }
+}
+
+/* Glow lines */
+.glow-line {
+  width: 100vw;
+  height: 1px;
+  background: linear-gradient(to right, rgba(161, 161, 170, 0), rgba(161, 161, 170, 0.5), rgba(161, 161, 170, 0));
+  opacity: 0.75;
+}
+
+@media (max-width: 767px) {
+  .glow-line {
+    height: 2px;
+    opacity: 1;
+    background: linear-gradient(to right, rgba(161, 161, 170, 0), rgba(161, 161, 170, 0.8), rgba(161, 161, 170, 0));
+  }
+}
+
+/* Carousel Container */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+  min-height: 375px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 4rem;
+  padding-top: 0;
+  margin-top: 0;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 767px) {
+  .carousel-container {
+    margin-top: 1rem; /* Reduced from 4rem to pull content up */
+    margin-bottom: 2rem;
+    min-height: 250px;
+  }
+}
+
+@media (min-width: 768px) {
+  .carousel-container {
+    margin-bottom: 2rem;
+    margin-top: 0;
+  }
+}
+
 /* Animations */
 @keyframes hueCycle {
   0% { filter: hue-rotate(0deg) brightness(0.8); }
@@ -51,21 +114,15 @@ body {
 }
 
 .animate-hue-cycle {
-  animation: hueCycle 10s infinite linear;
+  animation: hueCycle 20s infinite linear;
 }
 
-@keyframes glow {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
-}
-
-/* Rest of your original styles */
+/* Carousel */
 .embla {
-  max-width: 56rem;
-  margin: auto;
+  max-width: 32rem;
+  margin: 0 auto;
   --slide-height: 375px;
-  --slide-spacing: 2rem;
+  --slide-spacing: 1rem;
   --slide-size: 38%;
 }
 
@@ -88,7 +145,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 75%;
 }
 
 .embla__slide__img {
@@ -98,24 +155,69 @@ body {
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .embla {
-    --slide-size: 50%;
+    max-width: 100%;
+    --slide-size: 33%; /* Adjusted for ~3 slides */
     --slide-height: 250px;
+    --slide-spacing: 0.5rem;
+  }
+  .embla__slide {
+    height: 100%;
   }
   .embla__slide__img {
-    width: 180px;
+    width: 100%;
+    max-width: 180px; /* Smaller but allows multiple slides */
   }
 }
 
 @media (max-width: 480px) {
   .embla {
-    --slide-size: 45%;
+    --slide-size: 45%; /* Still shows 2-3 slides on very small screens */
     --slide-height: 200px;
   }
   .embla__slide__img {
-    width: 150px;
+    max-width: 150px;
   }
+}
+
+/* Buttons */
+.embla__button {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: inset 0 0 0 0.2rem #ffffff;
+  width: 3.6rem;
+  height: 3.6rem;
+  z-index: 1;
+  border-radius: 50%;
+  color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.embla__button:active {
+  transform: scale(0.9);
+  box-shadow: inset 0 0 0 0.2rem #ffffff, 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.embla__button:disabled {
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.embla__button__svg {
+  width: 35%;
+  height: 35%;
 }
 
 .comic-img {
@@ -123,24 +225,4 @@ body {
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
-}
-
-.group::before {
-  content: '';
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: radial-gradient(white, transparent);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.group:hover::before {
-  opacity: 0.5;
-  animation: sparkle 1s infinite;
-}
-
-@keyframes sparkle {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(10px, -10px); }
 }

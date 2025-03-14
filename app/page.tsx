@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
-import styles from "./home.module.css"
-import React, { useState, useEffect } from "react"; // Added useEffect
+import React, { useState, useEffect } from "react";
+import { PrevButton, NextButton, usePrevNextButtons } from "./components/emblaCarouselButton";
+import { EmblaCarouselType } from "embla-carousel";
 import { motion } from "framer-motion";
 import Particles from "./components/particles";
 import Particles2 from "./components/particles2";
@@ -12,7 +13,7 @@ import comic3 from "../public/comic3.jpg";
 import comic4 from "../public/comic4.jpg";
 import comic5 from "../public/comic5.jpg";
 import comic6 from "../public/comic6.jpg";
-import logo from "../public/Option3web.webp"
+import logo from "../public/Option32.webp";
 
 const navigation = [
   { name: "Featured", href: "/comics" },
@@ -100,26 +101,32 @@ const titleSpring = {
 
 export default function Home() {
   const [comicImages, setComicImages] = useState(comicImagesBase);
+  const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
 
   useEffect(() => {
     setComicImages([...comicImagesBase].sort(() => Math.random() - 0.5));
   }, []);
 
+  const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =
+    usePrevNextButtons(emblaApi);
+
   return (
     <motion.div
-      className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-b from-zinc-900/20 via-black/10 to-black bg-cover bg-center bg-fixed"
+      className="flex flex-col w-screen h-screen overflow-hidden bg-gradient-to-b from-zinc-900/20 via-black/10 to-black bg-cover bg-center bg-fixed"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      <div className={styles.navContainer}>
-        <motion.nav variants={fadeInSpring} className={styles.nav}>
+      {/* Nav Container */}
+      <div className="w-full backdrop-blur-md border-b-2 border-white shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] bg-white/10 rounded-bl-lg rounded-br-lg">
+
+        <motion.nav variants={fadeInSpring} className="my-6 px-6">
           <ul className="flex items-center justify-center gap-4">
             {navigation.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-m md:text-xl duration-500 text-white hover:text-red-500"
+                className="text-base md:text-2xl duration-500 text-white hover:text-red-500"
               >
                 {item.name}
               </Link>
@@ -127,15 +134,24 @@ export default function Home() {
           </ul>
         </motion.nav>
       </div>
-      <motion.div className={styles.glowLine} variants={fadeLeftSpring} />
+
+      {/* Glow Line */}
+      <motion.div
+        className="glow-line"
+        variants={fadeLeftSpring}
+      />
+
+      {/* Particles */}
       <motion.div variants={fadeInSpring}>
         <Particles className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
       <motion.div variants={fadeInSpring}>
         <Particles2 className="absolute inset-0 -z-10" quantity={100} />
       </motion.div>
+
+      {/* Logo */}
       <motion.div
-        className="z-10 cursor-default font-display flex items-center justify-center animate-hue-cycle"
+        className="z-10 cursor-default font-display flex items-center justify-center animate-hue-cycle mt-4 md:mt-6"
         variants={titleSpring}
       >
         <img
@@ -144,9 +160,25 @@ export default function Home() {
           className="w-[24rem] sm:w-[32rem] md:w-[40rem] h-auto"
         />
       </motion.div>
-      <motion.div className={styles.glowLine} variants={fadeRightSpring} />
-      <motion.div className={styles.carousel} variants={fadeInSpring}>
-        <Carousel images={comicImages} />
+
+      {/* Glow Line */}
+      <motion.div
+        className="glow-line"
+        variants={fadeRightSpring}
+      />
+
+      {/* Carousel Container */}
+      <motion.div
+        className="carousel-container relative mx-auto mt-4 md:mt-6"
+        variants={fadeInSpring}
+      >
+        <Carousel images={comicImages} setEmblaApi={setEmblaApi} />
+        <div className="-mx-6 hidden md:block absolute top-1/2 left-[-4rem] transform -translate-y-1/2">
+          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+        </div>
+        <div className="-mx-6 hidden md:block absolute top-1/2 right-[-4rem] transform -translate-y-1/2">
+          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+        </div>
       </motion.div>
     </motion.div>
   );
